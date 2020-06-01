@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head :: head-admin-categories">
+<body>
+	<nav th:replace="/fragments/nav :: nav-admin"></nav>
+
+	<div class="container mt-5">
+	
+		<h1 class="display-3">Kategorien</h1>	
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Kategorietitel</th>
+					<th scope="col">slug</th>
+					<th scope="col">Aktionen</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="category : ${categories}">
+					<td th:text="${category.title}"></td>
+					<td th:text="${category.slug}"></td>
+					<td>
+						<a class="btn btn-primary" th:href="@{'/admin/categories/update/' + ${category.id}}">Bearbeiten</a>
+						<a class="btn btn-danger" th:href="@{'/admin/categories/delete/' + ${category.id}}">Löschen</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<a class="btn btn-success" href="/admin/categories/add">Hinzufügen</a>
+	</div>
+
+	<footer th:replace="/fragments/footer"></footer>
+</body>
+</html>
