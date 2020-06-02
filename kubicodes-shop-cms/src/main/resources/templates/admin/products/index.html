@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head :: head-admin-products"></head>
+<body>
+	<nav th:replace="/fragments/nav :: nav-admin"></nav>
+
+	<div class="container mt-5">
+	
+		<h1 class="display-3">Produkte</h1>	
+		<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+			
+		<div th:if="${!products.empty}">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Titel</th>
+						<th scope="col">Slug</th>
+						<th scope="col">Price</th>
+						<th scope="col">Bild</th>
+						<th scope="col">Kategorie</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product: ${products}">
+						<td th:text="${product.title}"></td>
+						<td th:text="${product.slug}"></td>
+						<td th:text="${product.price}"></td>
+						<td th:text="${product.image}"></td>
+						<td th:text="${page.categoryId}"></td>
+						<td><a th:href="@{'/admin/products/update/' + ${product.id}}"
+							class="btn btn-primary">Bearbeiten</a> <a
+							th:href="@{'/admin/products/delete/' + ${product.id}}"
+							class="btn btn-danger">Löschen</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div th:unless="${!products.empty}">
+			<div class="alert alert-danger" role="alert">Keine Produkte zum
+				Anzeigen</div>
+		</div>
+		<a href="/admin/products/add" class="btn btn-success">Hinzufügen</a>
+	</div>
+
+
+	<footer th:replace="/fragments/footer"></footer>
+</body>
+</html>
