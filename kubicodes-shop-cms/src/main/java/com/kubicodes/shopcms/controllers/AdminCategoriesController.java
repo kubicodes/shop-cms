@@ -24,71 +24,121 @@ public class AdminCategoriesController {
 
 	@Autowired
 	CategoryRepository categoryRepository;
-	
+
 	@GetMapping
 	public String index(Model model) {
-		
-		// Get all categories from the repository and took them to the model for the view
+
+		// Get all categories from the repository and took them to the model for the
+		// view
 		List<Category> categories = categoryRepository.findAll();
 		model.addAttribute("categories", categories);
-		
+
 		return "/admin/categories/index";
 	}
-	
-	//Add Functionality for categories
+
+	// Add Functionality for categories
 	@GetMapping("/add")
 	public String addCategory(@ModelAttribute Category category) {
-	
-		return "/admin/categories/add";
+
+		return "admin/categories/add";
 	}
-	
+
 	@PostMapping("/add")
-	public String addCategory(@Valid Category category, BindingResult bindingResult, 
+	public String addCategory(@Valid Category category, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes) {
-		
+
 		// necessary for error handling
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			return "admin/categories/add";
 		}
-		
+
 		// Success message when form redirects.
 		redirectAttributes.addFlashAttribute("message", "Seite erfolgreich hinzugefügt");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-		
+
 		// Logic for automatic slug generation and non-double slug validation
 		String slug = category.getSlug();
-		
-		if(slug.isEmpty()) {
+
+		if (slug.isEmpty()) {
 			slug = category.getTitle().toLowerCase().replace(" ", "-");
-		}else {
+		} else {
 			slug = category.getSlug().toLowerCase().replace(" ", "-");
 		}
-		
+
 		Category slugExists = categoryRepository.findBySlug(slug);
-		
-		if(slugExists != null) {
+
+		if (slugExists != null) {
 			redirectAttributes.addFlashAttribute("message", "Slug für URL existiert bereits. Bitte ändern");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
 			redirectAttributes.addFlashAttribute("category", category);
-		}else {
+		} else {
 			category.setSlug(slug);
 			categoryRepository.save(category);
 
-		} 
+		}
 		return "redirect:/admin/categories/add";
 	}
-	
-	//Delete Functionality for categories
+
+	// Delete Functionality for categories
 	@GetMapping("/delete/{id}")
-	public String delete (@PathVariable int id, RedirectAttributes redirectAttributes) {
-		
-		//Delete by id from the url 
+	public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
+
+		// Delete by id from the url
 		categoryRepository.deleteById(id);
-		
+
 		// Success Message for the view when redirects
 		redirectAttributes.addFlashAttribute("message", "Kategorie wurde gelöscht");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-		
+
 		return "redirect:/admin/categories";
+	}
+
+	// Update Functionality for categories
+	@GetMapping("/update/{id}")
+	public String update(@PathVariable int id, Model model) {
+		Category category = categoryRepository.getOne(id);
+		model.addAttribute("category", category);
+
+		return "admin/categories/update";
+	}
+
+	@PostMapping("/update")
+	public String update(@Valid Category category, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			Model model) {
+
+		Category currentCategory = categoryRepository.getOne(category.getId());
+		
+		//necessary for error handling
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("categoryTitle", currentCategory.getTitle());
+			return "admin/categories/update";
+		}
+
+		//Success message when form redirects.
+		redirectAttributes.addFlashAttribute("message", "Kategorie erfolgreich aktualisiert");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+		// Logic for automatic slug generation and non-double slug validation
+		String slug = category.getSlug();
+
+		if (slug.isEmpty()) {
+			slug = category.getTitle().toLowerCase().replace(" ", "-");
+		} else {
+			slug = category.getSlug().toLowerCase().replace(" ", "-");
+		}
+
+		Category slugExists = categoryRepository.findBySlugAndIdNot(slug, category.getId());
+
+		if (slugExists != null) {
+			redirectAttributes.addFlashAttribute("message", "Slug für URL existiert bereits. Bitte ändern");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			redirectAttributes.addFlashAttribute("category", category);
+		} else {
+			category.setSlug(slug);
+			categoryRepository.save(category);
+
+		}
+		
+		return "redirect:/admin/categories/update/" + category.getId();
 	}
 }
