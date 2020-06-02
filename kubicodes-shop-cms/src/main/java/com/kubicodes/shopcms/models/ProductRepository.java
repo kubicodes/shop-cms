@@ -6,4 +6,6 @@ import com.kubicodes.shopcms.models.data.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
+	Product findBySlug(String slug);
+
 }

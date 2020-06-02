@@ -14,20 +14,23 @@
 			<table class="table">
 				<thead class="thead-dark">
 					<tr>
-						<th scope="col">Titel</th>
+						<th scope="col">Name</th>
 						<th scope="col">Slug</th>
-						<th scope="col">Price</th>
+						<th scope="col">Preis</th>
 						<th scope="col">Bild</th>
 						<th scope="col">Kategorie</th>
+						<th scope="col">Aktionen</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="product: ${products}">
-						<td th:text="${product.title}"></td>
+						<td th:text="${product.name}"></td>
 						<td th:text="${product.slug}"></td>
-						<td th:text="${product.price}"></td>
-						<td th:text="${product.image}"></td>
-						<td th:text="${page.categoryId}"></td>
+						<td th:text="${product.price} + ' €'"></td>
+						<td>
+							<img style="width:100px;" class="admin-product-image" th:src="@{'/media/' + ${product.image}}" />
+						</td>
+						<td th:text="${cats[__${product.categoryId}__]}"></td>
 						<td><a th:href="@{'/admin/products/update/' + ${product.id}}"
 							class="btn btn-primary">Bearbeiten</a> <a
 							th:href="@{'/admin/products/delete/' + ${product.id}}"
