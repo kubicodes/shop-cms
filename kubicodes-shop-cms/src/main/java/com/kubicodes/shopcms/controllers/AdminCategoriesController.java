@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -34,6 +35,7 @@ public class AdminCategoriesController {
 		return "/admin/categories/index";
 	}
 	
+	//Add Functionality for categories
 	@GetMapping("/add")
 	public String addCategory(@ModelAttribute Category category) {
 	
@@ -74,5 +76,19 @@ public class AdminCategoriesController {
 
 		} 
 		return "redirect:/admin/categories/add";
+	}
+	
+	//Delete Functionality for categories
+	@GetMapping("/delete/{id}")
+	public String delete (@PathVariable int id, RedirectAttributes redirectAttributes) {
+		
+		//Delete by id from the url 
+		categoryRepository.deleteById(id);
+		
+		// Success Message for the view when redirects
+		redirectAttributes.addFlashAttribute("message", "Kategorie wurde gelöscht");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		
+		return "redirect:/admin/categories";
 	}
 }
