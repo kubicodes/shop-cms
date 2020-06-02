@@ -8,4 +8,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>{
 
 	Category findBySlug(String slug);
 
+	Category findBySlugAndIdNot(String slug, int id);
+
 }
