@@ -42,7 +42,7 @@ public class AdminPagesController {
 	}
 
 	@PostMapping("/add")
-	public String addPageTest(@Valid Page page, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	public String addPage(@Valid Page page, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
 		// necessary for error handling
 		if (bindingResult.hasErrors()) {
