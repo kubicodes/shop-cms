@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/head :: head-admin-products-add"></head>
+<head th:replace="/fragments/head :: head-admin-products-update"></head>
 <body>
 	<nav th:replace="/fragments/nav :: nav-admin"></nav>
 
 	<div class="container mt-5">
 
-		<h1 class="display-3">Produkt Hinzufügen</h1>
+		<h1 class="display-3"
+			th:text="( ${productName} ?: ${product.name} ) + ' bearbeiten'"></h1>
 		<a href="/admin/products">Zurück zu Produkten</a>
-		
-		<div th:if="${message}" th:text="${message}"
-			th:class="${'alert ' + alertClass}"></div>
-
-		<form method="post" th:object="${product}" th:action="@{/admin/products/add}" enctype="multipart/form-data">
-			
+		<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+		<form method="post" th:object="${product}" th:action="@{/admin/products/update}" enctype="multipart/form-data">
 			<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
 				Fehlerhafte Eingabe(n). Bitte überprüfen!</div>
-
 			<div class="form-group">
-				<label for="">Name</label> <input type="text" class="form-control"
-					th:field="*{name}" placeholder="Name">
-				<span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+				<label for="">Titel</label> <input type="text" class="form-control"
+					th:field="*{name}" placeholder="Name"> <span
+					class="error" th:if="${#fields.hasErrors('name')}"
+					th:errors="*{name}"></span>
 			</div>
 			<div class="form-group">
 				<label for="">Preis</label> <input type="text" class="form-control"
@@ -37,12 +34,14 @@
 				</select>
 				<span class="error" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></span>
 			</div>
-			
 			<div class="form-group">
-				<label for="">Bild</label>
-				<input type="file" class="form-control" th:name="file">
-			</div>
-			
+                <label for="">Bild</label>
+                <input type="file" class="form-control" th:name="file">
+                <br><br>
+                <label for="">Derzeitiges Bild</label>
+                <br>
+                <img style="width: 200px;" th:src="@{'/media/' + ${product.image}}">
+            </div>
 			<div class="form-group">
 				<label for="">Beschreibung</label>
 				<textarea th:field="*{description}" rows="10" class="form-control"
@@ -50,7 +49,9 @@
 				<span class="error" th:if="${#fields.hasErrors('description')}"
 					th:errors="*{description}"></span>
 			</div>
-			<button class="btn btn-success mb-5">Hinzufügen</button>
+
+			<input type="hidden" th:field="*{id}" th:value="${product.id}" />
+			<button class="btn btn-success mb-5">Ändern</button>
 		</form>
 		<footer th:replace="/fragments/footer"></footer>
 	</div>
