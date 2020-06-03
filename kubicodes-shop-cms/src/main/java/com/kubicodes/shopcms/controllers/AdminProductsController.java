@@ -78,7 +78,7 @@ public class AdminProductsController {
 		boolean isFileOk = false;
 		byte[] bytes = file.getBytes();
 		String fileName = file.getOriginalFilename();
-		Path path = Paths.get("src/main/resources/static/img/" + fileName);
+		Path path = Paths.get("src/main/resources/static/media/" + fileName);
 
 		// image upload-validation for png or jpg
 		if (fileName.endsWith("png") || fileName.endsWith("jpg")) {
@@ -185,5 +185,23 @@ public class AdminProductsController {
 		}
 
 		return "redirect:/admin/products/update/" + product.getId();
+	}
+	
+	@GetMapping("/delete/{id}")
+	public String deleteProduct(@PathVariable int id, RedirectAttributes redirectAttributes) throws IOException {
+		
+		//Get currentProduct and path for deleting the image of product
+		Product currentProduct = productRepository.getOne(id);
+		Path path = Paths.get("src/main/resources/static/media/" + currentProduct.getImage());
+        
+		//Deleting image and Product
+		Files.delete(path);
+		productRepository.deleteById(id);
+		
+		//Success message after deleting
+		redirectAttributes.addFlashAttribute("message", "Produkt gelöscht");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		
+		return "redirect:/admin/products";
 	}
 }
