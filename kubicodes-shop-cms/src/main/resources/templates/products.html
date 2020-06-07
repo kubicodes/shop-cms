@@ -1,0 +1,32 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head :: head-front-index"></head>
+<body>
+	<nav th:replace="/fragments/nav :: nav-front"></nav>
+	
+	<div class="container-fluid mt-5">
+		<div class="row">
+			<div th:replace="/fragments/categories"></div>
+			<div class="col"></div>
+			
+			<div class="col-8">
+				<h2 class="display-3 mb-5">Alle Produkte</h2>
+				<div class="row"> 
+					<div class="col-4" th:each="product : ${allProducts}">
+						<img style="width:200px;" th:src="@{'/media/' + ${product.image}}" />
+						<h4 th:text="${product.name}"></h4>
+						<div class="desc" th:text="${product.description}"></div>
+						<p th:text="${product.price + ' €'}"></p>
+						<div>
+							<p>
+								<a class="btn btn-primary" href="#">In den Einkaufswagen</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="/fragments/footer"></footer>
+</body>
+</html>
