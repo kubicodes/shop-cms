@@ -21,13 +21,13 @@ import com.kubicodes.shopcms.models.data.Product;
 public class CategoriesController {
 	
 	@Autowired
-	ProductRepository productRepository;
+	private ProductRepository productRepository;
 	
 	@Autowired
-	CategoryRepository categoryRepository;
+	private CategoryRepository categoryRepository;
 	
 	@Autowired
-	PageRepository pageRepository;
+	private PageRepository pageRepository;
 	
 	@GetMapping("/{slug}")
 	public String showProducts(@PathVariable String slug, Model model) {
