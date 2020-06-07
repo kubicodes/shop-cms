@@ -44,6 +44,14 @@ public class CategoriesController {
 		//Add all Products to the model
 		if(slug.equals("all")) {
 			model.addAttribute("allProducts", allProducts);
+		}else {
+			Category category = categoryRepository.findBySlug(slug);
+			int categoryId = category.getId();
+			String categoryTitle = category.getTitle();
+			List<Product> products = productRepository.findAllByCategoryId(Integer.toString(categoryId));
+			
+			model.addAttribute("categoryTitle", categoryTitle);
+			model.addAttribute("allProducts", products);
 		}
 		
 		return "products";
