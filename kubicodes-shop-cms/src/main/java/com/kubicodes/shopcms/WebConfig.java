@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/media/**")
-				.addResourceLocations("hidden");
+				.addResourceLocations("/Users/kubi/git/shop-cms/kubicodes-shop-cms/src/main/resources/static/media");
 	}
 }
 */
