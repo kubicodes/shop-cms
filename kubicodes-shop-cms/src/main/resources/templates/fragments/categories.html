@@ -5,6 +5,6 @@
 			<a href="/kategorien/all" class="nav-link">Alle Produkte</a>
 		</li>
 		<li class="list-group-item" th:each="category: ${allCategories}">
-			<a class="nav-link" th:href="@{'kategorien/' + ${category.slug}}" th:text="${category.title}"></a>
+			<a class="nav-link" th:href="@{${category.slug}}" th:text="${category.title}"></a>
 	</ul>
 </div>
