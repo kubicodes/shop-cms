@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kubicodes.shopcms.models.CategoryRepository;
 import com.kubicodes.shopcms.models.PageRepository;
+import com.kubicodes.shopcms.models.data.Category;
 import com.kubicodes.shopcms.models.data.Page;
 
 @Controller
@@ -18,14 +20,25 @@ import com.kubicodes.shopcms.models.data.Page;
 public class PagesController {
 
 	@Autowired
-	private PageRepository pageRepository;
+	PageRepository pageRepository;
 	
-	//Putting all Pages to the model, for access in view of the navbar
+	@Autowired
+	CategoryRepository categoryRepository;
+	
+	//Putting all Pages and Categories to the model, for access in views
 	@ModelAttribute
 	public void allPages(Model model) {
 		
 		List<Page> allPages = pageRepository.findAll();
 		model.addAttribute("allPages", allPages);
+	
+	}
+	
+	@ModelAttribute
+	public void allCategories(Model model) {
+		
+		List<Category> allCategories = categoryRepository.findAll();
+		model.addAttribute("allCategories", allCategories);
 		
 	}
 
