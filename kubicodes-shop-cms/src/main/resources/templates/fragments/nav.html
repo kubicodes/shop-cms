@@ -32,8 +32,8 @@
 
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-			<li class="nav-item active"><a class="nav-link" href="/products">Produkte</a></li>
+			<li class="nav-item active" th:each="page: ${allPages}"><a
+				class="nav-link" th:href="@{'/' + ${page.slug}}" th:text="${page.title}"></a></li>
 		</ul>
 	</div>
 </nav>
