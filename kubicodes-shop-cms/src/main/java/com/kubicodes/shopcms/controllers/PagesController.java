@@ -20,10 +20,10 @@ import com.kubicodes.shopcms.models.data.Page;
 public class PagesController {
 
 	@Autowired
-	PageRepository pageRepository;
+	private PageRepository pageRepository;
 	
 	@Autowired
-	CategoryRepository categoryRepository;
+	private CategoryRepository categoryRepository;
 	
 	//Putting all Pages and Categories to the model, for access in views
 	@ModelAttribute

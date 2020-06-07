@@ -23,7 +23,7 @@ import com.kubicodes.shopcms.models.data.Category;
 public class AdminCategoriesController {
 
 	@Autowired
-	CategoryRepository categoryRepository;
+	private CategoryRepository categoryRepository;
 
 	@GetMapping
 	public String index(Model model) {

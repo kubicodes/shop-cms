@@ -23,7 +23,7 @@ import com.kubicodes.shopcms.models.data.Page;
 public class AdminPagesController {
 
 	@Autowired
-	PageRepository pageRepository;
+	private PageRepository pageRepository;
 
 	@GetMapping
 	public String index(Model model) {
