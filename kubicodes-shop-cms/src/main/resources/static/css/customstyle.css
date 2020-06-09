@@ -2,3 +2,12 @@ span.error{
 	color: #721c24 !important;
 }
 
+div.productAdded {
+    position: absolute;
+    bottom: 5px;
+    left: 110px;
+}
+
+.hide{
+	display:none;
+}
