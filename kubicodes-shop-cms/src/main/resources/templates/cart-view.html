@@ -1,0 +1,6 @@
+<p>Es sind <span th:text="${size}"></span>Elemente im Warenkorb</p>
+		<p>Warenkorbwert: <span th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')} + '€'"></span></p>
+		<p>
+			<a href="/cart/view" class="btn btn-success">Warenkorb Anzeigen</a>
+			<a href="/cart/clear" class="btn btn-danger float-right">Warenkorb leeren</a>
+		</p>
