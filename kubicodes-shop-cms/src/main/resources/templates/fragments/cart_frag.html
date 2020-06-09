@@ -1,0 +1,15 @@
+<div class="bg-secondary text-white p-3 mt-5" th:fragment="cart">
+
+	<div class="cart cartActive" th:if="${cartActive}">
+		<p>Es sind <span th:text="${commonSize}"></span>Elemente im Warenkorb</p>
+		<p>Warenkorbwert: <span th:text="${#numbers.formatDecimal(commonTotal, 0, 'COMMA', 2, 'POINT')} + '€'"></span></p>
+		<p>
+			<a href="/cart/view" class="btn btn-success">Warenkorb Anzeigen</a>
+			<a href="/cart/clear" class="btn btn-danger float-right">Warenkorb leeren</a>
+		</p>
+	</div>
+	<div class="cart cartInactive" th:unles="${cartActive}">
+		<p>Der Warenkorb ist leer.</p>
+	</div>
+	
+</div>
