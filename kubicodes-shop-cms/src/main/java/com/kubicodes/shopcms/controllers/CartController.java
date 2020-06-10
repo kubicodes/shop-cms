@@ -127,7 +127,8 @@ public class CartController {
 		// Get the quantity of the product
 		int quantity = cart.get(id).getQuantity();
 
-		//if quantity is 1, delete the product from the cart session, else subtract quantity for 1
+		// if quantity is 1, delete the product from the cart session, else subtract
+		// quantity for 1
 		if (quantity == 1) {
 			cart.remove(id);
 			if (cart.size() == 0) {
@@ -137,11 +138,31 @@ public class CartController {
 			cart.put(id, new Cart(id, product.getName(), product.getPrice(), --quantity, product.getImage()));
 		}
 
+		//Get the referer link dynamically
 		String refererLink = httpServletRequest.getHeader("referer");
 
 		return "redirect:" + refererLink;
 
+	}
 
+	@GetMapping("remove/{id}")
+	public String remove(@PathVariable int id, HttpSession session, HttpServletRequest httpServletRequest) {
+		
+		//Get the items of the session
+		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
+		
+		//Remove the item with this id
+		cart.remove(id);
+		
+		//if cart is empty remove the session
+		if(cart.size() == 0) {
+			session.removeAttribute("cart");
+		}
+		
+		//Get the referer link dynamically
+		String refererLink = httpServletRequest.getHeader("referer");
+		
+		return "redirect:" + refererLink;
 	}
 
 }
