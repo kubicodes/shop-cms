@@ -52,6 +52,7 @@ public class CartController {
 
 		}
 		
+		@SuppressWarnings("unchecked")
 		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
 		int size = 0;
 		double total = 0;
@@ -70,5 +71,28 @@ public class CartController {
 		return "cart-view";
 
 	}
+	
+	//create method for viewing the cart page
+	@GetMapping("/view")
+	public String viewCart(Model model, HttpSession session) {
+		
+		//if session is not set redirect to homepage
+		if(session.getAttribute("cart") == null) {
+			return "redirect:/";
+		}
+		
+		//if session is set get the session as hashmap
+		@SuppressWarnings("unchecked")
+		HashMap<Integer, Cart> cart = (HashMap<Integer,Cart>)session.getAttribute("cart");
+		
+		//add cart to the model
+		model.addAttribute("cart", cart);
+		
+		return "/cart";
+	}
+	
+	
+	
+	
 
 }
