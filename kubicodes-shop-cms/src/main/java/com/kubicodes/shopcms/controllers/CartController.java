@@ -3,6 +3,7 @@ package com.kubicodes.shopcms.controllers;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,12 @@ public class CartController {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
 
 	@GetMapping("/add/{id}")
-	public String add(@PathVariable int id, HttpSession session, Model model, 
+	public String add(@PathVariable int id, HttpSession session, Model model,
 			@RequestParam(value = "cartPage", required = false) String cartPage) {
 
 		// Get product by Id
@@ -60,62 +60,88 @@ public class CartController {
 			}
 
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
 		int size = 0;
 		double total = 0;
-		
-		//loop through the values of the hashmap cart and add the quantity to size and the 
-		//value for the price to the total
+
+		// loop through the values of the hashmap cart and add the quantity to size and
+		// the
+		// value for the price to the total
 		for (Cart value : cart.values()) {
 			size += value.getQuantity();
 			total += value.getQuantity() * Double.parseDouble(value.getPrice());
 		}
-		
-		//add size and total to model
+
+		// add size and total to model
 		model.addAttribute("size", size);
 		model.addAttribute("total", total);
-		
-		//cartPage != null -> user is on the cart page
+
+		// cartPage != null -> user is on the cart page
 		if (cartPage != null) {
-            return "redirect:/cart/view";
-        }
+			return "redirect:/cart/view";
+		}
 
 		return "cart-view";
 
 	}
-	
-	//create method for viewing the cart page
+
+	// create method for viewing the cart page
 	@GetMapping("/view")
 	public String viewCart(Model model, HttpSession session) {
-		
-		//if session is not set redirect to homepage
-		if(session.getAttribute("cart") == null) {
+
+		// if session is not set redirect to homepage
+		if (session.getAttribute("cart") == null) {
 			return "redirect:/";
 		}
-		
-		//if session is set get the session as hashmap
+
+		// if session is set get the session as hashmap
 		@SuppressWarnings("unchecked")
-		HashMap<Integer, Cart> cart = (HashMap<Integer,Cart>)session.getAttribute("cart");
-		
-		//add cart to the model
+		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
+
+		// add cart to the model
 		model.addAttribute("cart", cart);
-		
-		//necessary for categories on sidebar
+
+		// necessary for categories on sidebar
 		List<Category> allCategories = categoryRepository.findAll();
 		model.addAttribute("allCategories", allCategories);
-		
-		//send attribute to the model with value true to use it in de cart-frag for displaying frag on the sidebar just when
-		//user is not on the cart page
+
+		// send attribute to the model with value true to use it in de cart-frag for
+		// displaying frag on the sidebar just when
+		// user is not on the cart page
 		model.addAttribute("notCartViewPage", true);
 
-		
 		return "cart";
 	}
-	
-	
-	
-	
+
+	@GetMapping("/subtract/{id}")
+	public String subtract(@PathVariable int id, HttpSession session, HttpServletRequest httpServletRequest) {
+
+		// First get the product
+		Product product = productRepository.getOne(id);
+
+		// Get the items of the session
+		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
+
+		// Get the quantity of the product
+		int quantity = cart.get(id).getQuantity();
+
+		//if quantity is 1, delete the product from the cart session, else subtract quantity for 1
+		if (quantity == 1) {
+			cart.remove(id);
+			if (cart.size() == 0) {
+				session.removeAttribute("cart");
+			}
+		} else {
+			cart.put(id, new Cart(id, product.getName(), product.getPrice(), --quantity, product.getImage()));
+		}
+
+		String refererLink = httpServletRequest.getHeader("referer");
+
+		return "redirect:" + refererLink;
+
+
+	}
 
 }
