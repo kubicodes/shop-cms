@@ -4,11 +4,51 @@
 <body>
 	<nav th:replace="/fragments/nav :: nav-front"></nav>
 
-	<div class="container mt-5">
-		Warenkorb
-	</div>
-	<footer th:replace="/fragments/footer"></footer>
-	
+	<div class="container-fluid mt-5">
+		<div class="row">
+			<div th:replace="/fragments/categories"></div>
+			<div class="col"></div>
+			<div class="col-7">
+				<h2 class="display-4">Warenkorb</h2>
+				<table class="table">
+					<tr>
+						<th>Produkt</th>
+						<th>Bild</th>
+						<th>Stückzahl</th>
+						<th>Preis</th>
+						<th>Zwischensumme</th>
+					</tr>
+					<tr th:each="item: ${cart}">
+						<td th:text="${item.value.name}"></td>
+						<td><img style="width: 100px;"
+							th:src="@{'/media/' + ${item.value.image}}" /></td>
+						<td><span th:text="${item.value.quantity}"></span> <a
+							th:href="@{'/cart/add/'+${item.value.id}}"
+							class="btn btn-success btn-sm">+</a> <a
+							th:href="@{'/cart/subtract/'+${item.value.id}}"
+							class="btn btn-primary btn-sm">-</a> <a
+							th:href="@{'/cart/remove/'+${item.value.id}}"
+							class="btn btn-danger btn-sm">remove</a></td>
+						<td th:text="'$' + ${item.value.price}"></td>
+						<td
+							th:with="formattedTotal=${item.value.price} * ${item.value.quantity}"
+							th:text="${#numbers.formatDecimal(commonTotal, 0, 'COMMA', 2, 'POINT')} + '€'">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right" colspan="4"><b>Gesamt</b></td>
+						<td colspan="1"
+							th:text="${#numbers.formatDecimal(commonTotal, 0, 'COMMA', 2, 'POINT')} + '€'"></td>
+					</tr>
+					<tr>
+						<td><a href="/cart/clear" class="btn btn-danger">Leeren</a></td>
+						<td colspan="4" class="text-right"><a href="#"
+							class="btn btn-success checkout">Kasse</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<footer th:replace="/fragments/footer"></footer>
 </body>
 
 </html>
