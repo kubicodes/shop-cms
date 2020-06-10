@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kubicodes.shopcms.models.CategoryRepository;
 import com.kubicodes.shopcms.models.ProductRepository;
@@ -30,7 +31,8 @@ public class CartController {
 	
 
 	@GetMapping("/add/{id}")
-	public String add(@PathVariable int id, HttpSession session, Model model) {
+	public String add(@PathVariable int id, HttpSession session, Model model, 
+			@RequestParam(value = "cartPage", required = false) String cartPage) {
 
 		// Get product by Id
 		Product product = productRepository.getOne(id);
@@ -74,6 +76,11 @@ public class CartController {
 		//add size and total to model
 		model.addAttribute("size", size);
 		model.addAttribute("total", total);
+		
+		//cartPage != null -> user is on the cart page
+		if (cartPage != null) {
+            return "redirect:/cart/view";
+        }
 
 		return "cart-view";
 
@@ -98,6 +105,10 @@ public class CartController {
 		//necessary for categories on sidebar
 		List<Category> allCategories = categoryRepository.findAll();
 		model.addAttribute("allCategories", allCategories);
+		
+		//send attribute to the model with value true to use it in de cart-frag for displaying frag on the sidebar just when
+		//user is not on the cart page
+		model.addAttribute("notCartViewPage", true);
 
 		
 		return "cart";

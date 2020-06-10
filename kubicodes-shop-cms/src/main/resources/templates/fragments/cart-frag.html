@@ -1,4 +1,4 @@
-<div class="bg-secondary text-white p-3 mt-5" th:fragment="cart">
+<div class="bg-secondary text-white p-3 mt-5" th:fragment="cart" th:if="${notCartViewPage == null}">
 
 	<div class="cart cartActive" th:if="${cartActive}">
 		<p>Es sind <span th:text="${commonSize}"></span>Elemente im Warenkorb</p>

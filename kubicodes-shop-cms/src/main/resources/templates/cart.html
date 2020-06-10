@@ -23,7 +23,7 @@
 						<td><img style="width: 100px;"
 							th:src="@{'/media/' + ${item.value.image}}" /></td>
 						<td><span th:text="${item.value.quantity}"></span> <a
-							th:href="@{'/cart/add/'+${item.value.id}}"
+							th:href="@{'/cart/add/'+${item.value.id}}+'?cartPage=true'"
 							class="btn btn-success btn-sm">+</a> <a
 							th:href="@{'/cart/subtract/'+${item.value.id}}"
 							class="btn btn-primary btn-sm">-</a> <a
