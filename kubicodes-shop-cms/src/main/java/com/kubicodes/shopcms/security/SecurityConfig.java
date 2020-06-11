@@ -25,7 +25,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		//allow everyone to access the different page but allow just "user" to access the categories
 		
-		http.authorizeRequests().antMatchers("/").permitAll();
+		http.authorizeRequests()
+		.antMatchers("/kategorien/**").hasAnyRole("USER", "ADMIN") //just logged in users can see category
+		.antMatchers("/admin/**").hasAnyRole("ADMIN") //just admins can access admin backend
+		.antMatchers("/").permitAll()
+		.and()//justlike a seperator
+		.formLogin().loginPage("/login")
+		.and()
+		.logout().logoutUrl("/") //Go to Homepage after logout
+		.and()
+		.exceptionHandling().accessDeniedPage("/"); //Go to Homepage when access denied
 	}
 	
 	@Override
