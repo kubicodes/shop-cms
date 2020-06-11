@@ -48,6 +48,7 @@
 			<li class="nav-item active" th:each="page: ${allPages}"><a
 				class="nav-link" th:href="@{'/' + ${page.slug}}"
 				th:text="${page.title}"></a></li>
+			<li class="nav-item active"><a class="nav-link" href="/kategorien/all">Produkte</a></li>
 		</ul>
 
 		<ul class="float-right navbar-nav" th:if="${principal == null}">
