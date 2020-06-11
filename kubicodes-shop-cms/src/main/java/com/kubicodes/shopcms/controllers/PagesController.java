@@ -66,5 +66,12 @@ public class PagesController {
 		model.addAttribute("page", page);
 		return "pages";
 	}
+	
+	//Login Page
+	@GetMapping("/login")
+	public String showLogin() {
+		
+		return "login";
+	}
 
 }

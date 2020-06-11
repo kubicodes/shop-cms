@@ -1,0 +1,40 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head :: head-front-index"></head>
+<body>
+	<nav th:replace="/fragments/nav :: nav-front"></nav>
+
+	<div class="container-fluid mt-5">
+		<div class="row">
+            <div th:replace="/fragments/categories"></div>
+            <div class="col"></div>
+            <div class="col-6">
+                <h3 class="display-4">Login</h3>
+
+                <form method="post" th:action="@{/login}" >
+
+                    <div class="form-group">
+                        <label for="">Benutzername:</label>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Benutzername">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Passwort:</label>
+                        <input type="password" class="form-control" name="password" id="password">
+                    </div>
+
+                    <button class="btn btn-primary mb-5">Login</button>
+        			
+        			<p>
+        				<a th:href="@{/register}">Noch Kein Konto? Jetzt Registrieren</a>
+        			</p>
+                </form>
+
+            </div>
+            <div class="col"></div>
+        </div>
+	</div>
+	<footer th:replace="/fragments/footer"></footer>
+</body>
+
+</html>
