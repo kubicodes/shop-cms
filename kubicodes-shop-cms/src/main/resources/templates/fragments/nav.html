@@ -31,9 +31,24 @@
 	</button>
 
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item active" th:each="page: ${allPages}"><a
-				class="nav-link" th:href="@{'/' + ${page.slug}}" th:text="${page.title}"></a></li>
+				class="nav-link" th:href="@{'/' + ${page.slug}}"
+				th:text="${page.title}"></a></li>
 		</ul>
+
+		<ul class="float-right navbar-nav" th:if="${principal == null}">
+			<li class="nav-item active"><a th:href="@{/register}"
+				class="nav-link">Registrieren</a></li>
+			<li class="nav-item active"><a th:href="@{/login}"
+				class="nav-link">Login</a></li>
+		</ul>
+
+		<form th:if="${principal != null}" method="post"
+			th:action="@{/logout}">
+			<span class="text-white" th:text="${'Hi, ' + principal}"></span>
+			<button class="btn btn-secondary">Logout</button>
+		</form>
 	</div>
 </nav>

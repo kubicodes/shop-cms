@@ -1,5 +1,6 @@
 package com.kubicodes.shopcms;
 
+import java.security.Principal;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +15,12 @@ import com.kubicodes.shopcms.models.data.Cart;
 public class Common {
 
 	@ModelAttribute
-	public void sharedData(Model model, HttpSession session) {
+	public void sharedData(Model model, HttpSession session, Principal principal) {
+		
+		//if some user or admin is logged in get the name
+		if(principal != null) {
+			model.addAttribute("principal", principal.getName());
+		}
 
 		// set boolean to check if cart is active (default: false)
 		boolean cartActive = false;

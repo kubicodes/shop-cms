@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()//justlike a seperator
 		.formLogin().loginPage("/login")
 		.and()
-		.logout().logoutUrl("/") //Go to Homepage after logout
+		.logout().logoutSuccessUrl("/") //Go to Homepage after logout
 		.and()
 		.exceptionHandling().accessDeniedPage("/"); //Go to Homepage when access denied
 	}
