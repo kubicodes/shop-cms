@@ -122,6 +122,7 @@ public class CartController {
 		Product product = productRepository.getOne(id);
 
 		// Get the items of the session
+		@SuppressWarnings("unchecked")
 		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
 
 		// Get the quantity of the product
@@ -149,6 +150,7 @@ public class CartController {
 	public String remove(@PathVariable int id, HttpSession session, HttpServletRequest httpServletRequest) {
 
 		// Get the items of the session
+		@SuppressWarnings("unchecked")
 		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
 
 		// Remove the item with this id

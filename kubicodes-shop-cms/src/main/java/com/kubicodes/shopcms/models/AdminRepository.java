@@ -6,4 +6,5 @@ import com.kubicodes.shopcms.models.data.Admin;
 
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
 
+	Admin findByUsername(String username);
 }
