@@ -1,0 +1,61 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head :: head-front-index"></head>
+<body>
+	<nav th:replace="/fragments/nav :: nav-front"></nav>
+
+	<div class="container-fluid mt-5">
+		<div class="row">
+            <div th:replace="/fragments/categories"></div>
+            <div class="col"></div>
+            <div class="col-6">
+                <h3 class="display-4">Registrieren</h3>
+
+                <form method="post" th:object="${user}" th:action="@{/register}" >
+
+                    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                        Fehlerhafte Eingaben
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="">Benutzername:</label>
+                        <input type="text" class="form-control" th:field="*{username}" placeholder="Benutzername">
+                        <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Passwort:</label>
+                        <input type="password" class="form-control" th:field="*{password}">
+                        <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Passwort bestätigen:</label>
+                        <input type="password" class="form-control" th:field="*{confirmPassword}">
+                        <span class="error" th:if="${passwordMatchError}">Die Passwörter müssen übereinstimmen</span>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="">E-mail:</label>
+                        <input type="email" class="form-control" th:field="*{email}" placeholder="E-mail" required>
+                        <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Telefon:</label>
+                        <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Telefonnummer">
+                        <span class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+                    </div>
+        
+                    <button class="btn btn-primary mb-5">Registrieren</button>
+        
+                </form>
+
+            </div>
+            <div class="col"></div>
+        </div>
+	</div>
+	<footer th:replace="/fragments/footer"></footer>
+</body>
+
+</html>

@@ -19,6 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		//allow everyone to access the different page but allow just "user" to access the categories
 		
-		http.authorizeRequests().antMatchers("/kategorien/**").hasAnyRole("USER").antMatchers("/").permitAll();
+		http.authorizeRequests().antMatchers("/").permitAll();
 	}
 }
