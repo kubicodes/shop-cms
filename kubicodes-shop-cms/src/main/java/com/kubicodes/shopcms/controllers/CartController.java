@@ -1,7 +1,6 @@
 package com.kubicodes.shopcms.controllers;
 
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,10 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.kubicodes.shopcms.models.CategoryRepository;
 import com.kubicodes.shopcms.models.ProductRepository;
 import com.kubicodes.shopcms.models.data.Cart;
-import com.kubicodes.shopcms.models.data.Category;
 import com.kubicodes.shopcms.models.data.Product;
 
 @Controller
@@ -26,9 +23,6 @@ public class CartController {
 
 	@Autowired
 	private ProductRepository productRepository;
-
-	@Autowired
-	private CategoryRepository categoryRepository;
 
 	@GetMapping("/add/{id}")
 	public String add(@PathVariable int id, HttpSession session, Model model,
@@ -102,10 +96,6 @@ public class CartController {
 
 		// add cart to the model
 		model.addAttribute("cart", cart);
-
-		// necessary for categories on sidebar
-		List<Category> allCategories = categoryRepository.findAll();
-		model.addAttribute("allCategories", allCategories);
 
 		// send attribute to the model with value true to use it in de cart-frag for
 		// displaying frag on the sidebar just when
