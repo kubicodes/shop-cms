@@ -6,4 +6,5 @@ import com.kubicodes.shopcms.models.data.User;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
 
+	User findByUsername(String username);
 }
